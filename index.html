@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jus Segar - Pesan Jus Buah Online di Cimahi</title>
+  <meta name="description" content="Delapan pilihan jus buah segar. Pesan online lewat WhatsApp, diantar atau ambil di tempat. Buka setiap hari 09.00-20.00 WIB di Cigugur Tengah, Cimahi.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================
+       1. VARIABEL & RESET
+       ========================================================== */
+    :root {
+      --green: #0B4F3F;
+      --green-dark: #083a2f;
+      --green-soft: #136b56;
+      --orange: #FF8A1F;
+      --orange-deep: #e87400;
+      --cream: #FFF6E8;
+      --bg: #F4F8F6;
+      --line: #D8E4DE;
+      --ink: #16241F;
+      --muted: #5A6D65;
+      --error: #b3261e;
+      --on-orange: #3a2000;
+      --head: "Baloo 2", "Trebuchet MS", sans-serif;
+      --body: "Nunito Sans", "Segoe UI", Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+
+    body {
+      font-family: var(--body);
+      font-size: 16.5px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    h1, h2, h3 { font-family: var(--head); line-height: 1.1; }
+    svg { display: block; width: 100%; height: auto; }
+    :focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+    .wrap { width: min(1180px, 92%); margin-inline: auto; }
+    section { padding: 4.5rem 0; }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: .6rem;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--orange-deep);
+    }
+    .judul { font-size: clamp(2rem, 4.5vw, 2.9rem); font-weight: 800; color: var(--green); }
+    .lead { max-width: 56ch; margin-top: .7rem; color: var(--muted); }
+
+    /* ==========================================================
+       2. TOMBOL
+       ========================================================== */
+    .btn {
+      display: inline-block;
+      padding: .85rem 1.6rem;
+      font: inherit;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+      border: 2px solid transparent;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .15s, transform .1s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-main { color: var(--on-orange); background: var(--orange); }
+    .btn-main:hover { background: var(--orange-deep); }
+    .btn-ghost { color: var(--muted); background: transparent; border-color: var(--line); }
+    .btn-ghost:hover { background: var(--bg); }
+    .btn-light { color: #fff; border-color: #ffffff66; }
+    .btn-light:hover { background: #ffffff1a; }
+    .btn-block { display: block; width: 100%; }
+
+    /* ==========================================================
+       3. NAVIGASI
+       ========================================================== */
+    .nav { position: sticky; top: 0; z-index: 20; background: var(--green); box-shadow: 0 2px 12px #0003; }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 64px; }
+    .logo { font-family: var(--head); font-size: 1.7rem; font-weight: 800; color: #fff; text-decoration: none; }
+    .logo span { color: var(--orange); }
+    .nav ul { display: flex; align-items: center; gap: 1.6rem; list-style: none; }
+    .nav ul a:not(.btn) { font-weight: 700; color: #d6ebe3; text-decoration: none; }
+    .nav ul a:not(.btn):hover { color: #fff; }
+    .nav .btn { padding: .5rem 1.2rem; }
+
+    /* ==========================================================
+       4. HERO
+       ========================================================== */
+    .hero {
+      padding: 4rem 0 6rem;
+      color: #fff;
+      background: radial-gradient(circle at 85% 20%, #136b56 0, transparent 55%), var(--green);
+    }
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: center; }
+    .hero h1 { font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 800; }
+    .hero h1 span { color: var(--orange); }
+    .hero p { max-width: 46ch; margin-top: 1rem; font-size: 1.15rem; color: #c9e3da; }
+    .hero .aksi { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; }
+    .hero .info { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; margin-top: 1.6rem; font-size: .95rem; color: #c9e3da; }
+    .hero .info b { color: var(--orange); }
+
+    .hero-gambar {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin-inline: auto;
+      padding: 1rem;
+      background: var(--cream);
+      border-radius: 36px;
+      transform: rotate(2deg);
+      box-shadow: 0 24px 60px #0006;
+    }
+    .hero-gambar svg { border-radius: 26px; }
+    .stiker {
+      position: absolute;
+      right: -14px;
+      bottom: 28px;
+      padding: .5rem 1rem;
+      font-family: var(--head);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--on-orange);
+      background: var(--orange);
+      border-radius: 999px;
+      transform: rotate(-6deg);
+      box-shadow: 0 6px 16px #0004;
+    }
+
+    /* ==========================================================
+       5. KEUNGGULAN
+       ========================================================== */
+    .keunggulan { position: relative; z-index: 2; margin-top: -3rem; padding: 0; }
+    .keunggulan ul { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; list-style: none; }
+    .keunggulan li {
+      padding: 1.2rem;
+      background: #fff;
+      border: 2px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 8px 24px #0b4f3f14;
+    }
+    .keunggulan .ikon { font-size: 1.8rem; line-height: 1; }
+    .keunggulan h3 { margin: .5rem 0 .2rem; font-size: 1.2rem; color: var(--green); }
+    .keunggulan p { font-size: .92rem; color: var(--muted); }
+
+    /* ==========================================================
+       6. MENU & PESANAN
+       ========================================================== */
+    .menu-head { margin-bottom: 2rem; }
+    .layout { display: grid; grid-template-columns: 1fr 360px; gap: 2rem; align-items: start; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.1rem; }
+    .card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #fff;
+      border: 2px solid var(--line);
+      border-radius: 20px;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .card:hover { box-shadow: 0 10px 28px #0b4f3f1f; }
+    .card.aktif { border-color: var(--orange); }
+    .card .pic { border-bottom: 2px solid var(--line); }
+
+    .body { display: flex; flex-direction: column; flex: 1; padding: .9rem 1rem 1.1rem; }
+    .body h3 { font-size: 1.3rem; }
+    .body p { flex: 1; margin: .15rem 0 .7rem; font-size: .9rem; color: var(--muted); }
+    .harga { font-family: var(--head); font-size: 1.25rem; font-weight: 800; color: var(--orange-deep); }
+
+    .stepper { display: flex; align-items: center; justify-content: space-between; margin-top: .6rem; }
+    .stepper button {
+      width: 42px;
+      height: 42px;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      background: var(--green);
+      cursor: pointer;
+      transition: background .15s, transform .1s;
+    }
+    .stepper button:hover:not(:disabled) { background: var(--green-soft); }
+    .stepper button:active:not(:disabled) { transform: scale(.92); }
+    .stepper button:disabled { background: #cfdcd6; cursor: not-allowed; }
+    .stepper .plus { color: var(--on-orange); background: var(--orange); }
+    .stepper .plus:hover:not(:disabled) { background: var(--orange-deep); }
+    .qty { min-width: 2ch; font-family: var(--head); font-size: 1.5rem; font-weight: 800; text-align: center; }
+    .sub { min-height: 1.3em; margin-top: .3rem; font-size: .85rem; color: var(--muted); text-align: right; }
+
+    /* Panel ringkasan */
+    .summary {
+      position: sticky;
+      top: 80px;
+      padding: 1.3rem;
+      background: #fff;
+      border: 2px solid var(--line);
+      border-radius: 22px;
+    }
+    .summary h3 { margin-bottom: .6rem; font-size: 1.6rem; color: var(--green); }
+    #daftar { display: grid; gap: .5rem; margin-bottom: .8rem; list-style: none; }
+    #daftar li { display: flex; justify-content: space-between; gap: .8rem; padding-bottom: .4rem; border-bottom: 1px dashed var(--line); }
+    #daftar .n { font-weight: 700; }
+    #daftar .n small { display: block; font-weight: 400; color: var(--muted); }
+    .kosong { margin-bottom: .8rem; font-style: italic; color: var(--muted); }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1rem;
+      padding: .8rem 1rem;
+      color: #fff;
+      background: var(--green);
+      border-radius: 14px;
+    }
+    .total strong { font-family: var(--head); font-size: 1.8rem; color: var(--orange); }
+
+    label { display: grid; gap: .3rem; margin-bottom: .8rem; font-size: .93rem; font-weight: 700; }
+    label small { font-weight: 400; color: var(--muted); }
+    input, select, textarea {
+      width: 100%;
+      padding: .65rem .8rem;
+      font: inherit;
+      background: #fff;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--green); outline: 3px solid var(--orange); }
+    textarea { min-height: 68px; resize: vertical; }
+    .pesan-error { min-height: 1.3em; margin-bottom: .5rem; font-size: .92rem; font-weight: 600; color: var(--error); }
+    .summary .btn-ghost { margin-top: .6rem; }
+
+    /* ==========================================================
+       7. CARA MEMESAN
+       ========================================================== */
+    .cara { background: var(--cream); }
+    .cara ol {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      margin-top: 2rem;
+      list-style: none;
+      counter-reset: langkah;
+    }
+    .cara li {
+      position: relative;
+      padding: 4rem 1.2rem 1.3rem;
+      background: #fff;
+      border: 2px solid var(--line);
+      border-radius: 20px;
+      counter-increment: langkah;
+    }
+    .cara li::before {
+      content: counter(langkah);
+      position: absolute;
+      top: 1.1rem;
+      left: 1.2rem;
+      display: grid;
+      place-items: center;
+      width: 2.4rem;
+      height: 2.4rem;
+      font-family: var(--head);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--on-orange);
+      background: var(--orange);
+      border-radius: 50%;
+    }
+    .cara h3 { margin-bottom: .3rem; font-size: 1.2rem; color: var(--green); }
+    .cara li p { font-size: .93rem; color: var(--muted); }
+
+    /* ==========================================================
+       8. LOKASI
+       ========================================================== */
+    .lokasi .kotak {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+      padding: 2.4rem;
+      color: #fff;
+      background: var(--green);
+      border-radius: 28px;
+    }
+    .lokasi .judul { color: #fff; }
+    .lokasi dl { display: grid; gap: 1.2rem; }
+    .lokasi dt { font-size: .85rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--orange); }
+    .lokasi dd { font-size: 1.15rem; }
+
+    /* ==========================================================
+       9. AJAKAN AKHIR & FOOTER
+       ========================================================== */
+    .ajakan { padding: 0 0 4.5rem; }
+    .ajakan .kotak {
+      padding: 3rem 1.5rem;
+      text-align: center;
+      background: var(--orange);
+      border-radius: 28px;
+    }
+    .ajakan h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; color: var(--on-orange); }
+    .ajakan p { margin: .6rem auto 1.5rem; max-width: 44ch; color: var(--on-orange); }
+    .ajakan .btn { color: #fff; background: var(--green); }
+    .ajakan .btn:hover { background: var(--green-dark); }
+
+    footer { padding: 1.6rem 0; font-size: .9rem; color: #b5d3c8; background: var(--green-dark); }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1.5rem; }
+    footer b { color: #fff; }
+
+    /* ==========================================================
+       10. BAR PESANAN MOBILE & STRUK
+       ========================================================== */
+    .bar-pesanan {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 30;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .8rem 4%;
+      color: #fff;
+      background: var(--green-dark);
+      box-shadow: 0 -6px 20px #0004;
+    }
+    .bar-pesanan.tampil { display: flex; }
+    .bar-pesanan strong { font-family: var(--head); font-size: 1.3rem; color: var(--orange); }
+    .bar-pesanan .btn { padding: .6rem 1.3rem; }
+
+    dialog { width: min(440px, 92vw); padding: 0; border: none; border-radius: 22px; box-shadow: 0 20px 60px #0006; }
+    dialog::backdrop { background: #0b1f1a99; }
+    .struk { padding: 1.5rem; }
+    .struk h2 { font-size: 1.7rem; color: var(--green); }
+    .struk .tgl { margin-bottom: .8rem; font-size: .9rem; color: var(--muted); }
+    .struk table { width: 100%; margin-bottom: .6rem; border-collapse: collapse; }
+    .struk td { padding: .35rem 0; vertical-align: top; border-bottom: 1px dashed var(--line); }
+    .struk td:last-child { text-align: right; white-space: nowrap; }
+    .struk .tot td { padding-top: .6rem; font-family: var(--head); font-size: 1.3rem; font-weight: 800; color: var(--green); border: none; }
+    .blok { margin-top: .6rem; padding: .6rem .8rem; font-size: .95rem; background: var(--bg); border-radius: 12px; }
+    .blok b { display: block; font-size: .85rem; color: var(--muted); }
+    .aksi-struk { display: grid; gap: .5rem; margin-top: 1.1rem; }
+
+    /* ==========================================================
+       11. RESPONSIF & AKSESIBILITAS
+       ========================================================== */
+    @media (max-width: 960px) {
+      section { padding: 3.2rem 0; }
+      .hero .wrap, .lokasi .kotak, .layout { grid-template-columns: 1fr; }
+      .hero-gambar { max-width: 300px; }
+      .keunggulan ul, .cara ol { grid-template-columns: repeat(2, 1fr); }
+      .summary { position: static; }
+      body { padding-bottom: 4.5rem; }
+    }
+    @media (max-width: 640px) {
+      .nav ul li:not(:last-child) { display: none; }
+      .keunggulan ul, .cara ol { grid-template-columns: 1fr; }
+      .lokasi .kotak { padding: 1.6rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .card, .btn, .stepper button { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGASI ===== -->
+  <nav class="nav" aria-label="Navigasi utama">
+    <div class="wrap">
+      <a class="logo" href="#atas">Fatwammar <span>Juice</span></a>
+      <ul>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#cara-memesan">Cara memesan</a></li>
+        <li><a href="#lokasi">Lokasi</a></li>
+        <li><a class="btn btn-main" href="#menu">Pesan</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="atas">
+
+    <!-- ===== HERO ===== -->
+    <header class="hero">
+      <div class="wrap">
+        <div>
+          <h1>Haus hilang, <span>mood senang</span> bareng FATWAMMAR JUICE 😋</h1>
+          <p>Delapan pilihan jus buah, mulai dari Rp10.000. Pesan online, kirim lewat WhatsApp, lalu tinggal tunggu jusnya datang atau ambil di tempat.</p>
+          <div class="aksi">
+            <a class="btn btn-main" href="#menu">Pesan sekarang</a>
+            <a class="btn btn-light" href="#cara-memesan">Lihat cara memesan</a>
+          </div>
+          <div class="info">
+            <span><b>Buka:</b> setiap hari, 09.00-20.00 WIB</span>
+            <span><b>Lokasi:</b> Cigugur Tengah, Cimahi</span>
+          </div>
+        </div>
+        <div class="hero-gambar" id="hero-gambar" aria-hidden="true">
+          <span class="stiker">8 rasa buah</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== KEUNGGULAN ===== -->
+    <div class="keunggulan">
+      <div class="wrap">
+        <ul>
+          <li><div class="ikon" aria-hidden="true">🍹</div><h3>8 pilihan jus</h3><p>Dari jeruk sampai buah naga, ada yang pas buat seleramu.</p></li>
+          <li><div class="ikon" aria-hidden="true">💸</div><h3>Harga ramah</h3><p>Mulai Rp10.000 per gelas, total terhitung otomatis.</p></li>
+          <li><div class="ikon" aria-hidden="true">💬</div><h3>Pesan lewat WhatsApp</h3><p>Tidak perlu daftar akun. Pilih jus, kirim, selesai.</p></li>
+          <li><div class="ikon" aria-hidden="true">🛵</div><h3>Antar atau ambil</h3><p>Diantar ke alamatmu atau ambil sendiri di tempat.</p></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== MENU & PESANAN ===== -->
+    <section id="menu" aria-labelledby="judul-menu">
+      <div class="wrap">
+        <div class="menu-head">
+          <span class="eyebrow">Menu</span>
+          <h2 class="judul" id="judul-menu">Pilih jus favoritmu</h2>
+          <p class="lead">Tekan tombol + untuk menambah pesanan. Daftar dan total harga muncul otomatis di panel "Pesananmu".</p>
+        </div>
+
+        <div class="layout">
+          <div class="grid" id="grid"></div>
+
+          <aside class="summary" id="pesanan" aria-labelledby="judul-ringkasan">
+            <h3 id="judul-ringkasan">Pesananmu</h3>
+            <p class="kosong" id="kosong">Belum ada jus yang dipilih. Tekan tombol + pada menu.</p>
+            <ul id="daftar"></ul>
+            <div class="total" aria-live="polite"><span>Total</span><strong id="total">Rp0</strong></div>
+
+            <label>Nama pemesan
+              <input type="text" id="nama" autocomplete="name" placeholder="Contoh: Andi">
+            </label>
+            <label>Pengambilan
+              <select id="antar">
+                <option value="Diantar">Diantar ke alamat</option>
+                <option value="Ambil di tempat">Ambil di tempat</option>
+              </select>
+            </label>
+            <label id="label-alamat">Alamat pengantaran
+              <small>Jalan, nomor rumah, RT/RW, dan patokan</small>
+              <textarea id="alamat" autocomplete="street-address" placeholder="Contoh: Jl. Melati No. 5, RT 02/RW 03, dekat masjid"></textarea>
+            </label>
+            <label>Pesanan lain
+              <small>Menu di luar daftar, misalnya makanan atau minuman lain</small>
+              <textarea id="lain" placeholder="Contoh: Es teh manis 2 gelas"></textarea>
+            </label>
+            <label>Catatan
+              <small>Contoh: kurang manis, tanpa es, tanpa susu</small>
+              <textarea id="catatan" placeholder="Tulis catatan untuk penjual"></textarea>
+            </label>
+
+            <p class="pesan-error" id="error" role="alert"></p>
+            <button class="btn btn-main btn-block" id="btn-pesan" type="button">Pesan sekarang</button>
+            <button class="btn btn-ghost btn-block" id="btn-reset" type="button">Kosongkan pesanan</button>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CARA MEMESAN ===== -->
+    <section class="cara" id="cara-memesan" aria-labelledby="judul-cara">
+      <div class="wrap">
+        <span class="eyebrow">Cara memesan</span>
+        <h2 class="judul" id="judul-cara">Pesan jus dalam 4 langkah</h2>
+        <ol>
+          <li><h3>Pilih jus</h3><p>Tekan + pada jus yang kamu mau. Tekan − kalau jumlahnya mau dikurangi.</p></li>
+          <li><h3>Cek total</h3><p>Daftar pesanan dan total harga muncul otomatis di panel "Pesananmu".</p></li>
+          <li><h3>Isi data pemesan</h3><p>Tulis nama, pilih diantar atau ambil di tempat, dan isi alamat kalau diantar. Tambahkan pesanan lain dan catatan kalau perlu.</p></li>
+          <li><h3>Kirim lewat WhatsApp</h3><p>Tekan "Pesan sekarang", periksa struknya, lalu kirim. Kami akan membalas untuk konfirmasi dan pembayaran.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== LOKASI ===== -->
+    <section class="lokasi" id="lokasi" aria-labelledby="judul-lokasi">
+      <div class="wrap">
+        <div class="kotak">
+          <div>
+            <span class="eyebrow">Lokasi</span>
+            <h2 class="judul" id="judul-lokasi">Mampir ke tempat kami</h2>
+          </div>
+          <dl>
+            <div><dt>Alamat</dt><dd>Jawa Barat, Cimahi, Cigugur Tengah</dd></div>
+            <div><dt>Jam buka</dt><dd>Setiap hari, 09.00-20.00 WIB</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== AJAKAN AKHIR ===== -->
+    <section class="ajakan" aria-labelledby="judul-ajakan">
+      <div class="wrap">
+        <div class="kotak">
+          <h2 id="judul-ajakan">Haus? Pesan sekarang.</h2>
+          <p>Pilih jus, kirim lewat WhatsApp, dan biarkan kami yang siapkan.</p>
+          <a class="btn" href="#menu">Mulai pesan</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">+
+      <span><b>Fatwammar Juice</b> - Cigugur Tengah, Cimahi</span>
+      <span>Buka setiap hari, 09.00-20.00 WIB</span>
+    </div>
+  </footer>
+
+  <!-- Bar pesanan (tampil di layar kecil kalau sudah ada pesanan) -->
+  <div class="bar-pesanan" id="bar-pesanan">
+    <span><span id="bar-jumlah">0</span> gelas &middot; <strong id="bar-total">Rp0</strong></span>
+    <a class="btn btn-main" href="#pesanan">Lihat pesanan</a>
+  </div>
+
+  <!-- Struk pesanan -->
+  <dialog id="struk" aria-labelledby="judul-struk">
+    <div class="struk" id="isi-struk"></div>
+  </dialog>
+
+  <script>
+    'use strict';
+
+    /* ==========================================================
+       1. PENGATURAN
+       ========================================================== */
+    // Format internasional: awali 62, tanpa "+" dan tanpa 0 di depan.
+    const NOMOR_WA = '6283148882800';
+
+    /* ==========================================================
+       2. DATA MENU
+       bg     = warna latar gambar
+       liquid / light = warna jus
+       slice / inner  = warna irisan buah
+       ========================================================== */
+    const JUS = [
+      { id: 'alpukat',  nama: 'Jus Alpukat',   harga: 15000, desc: 'Kental, lembut, dengan susu cokelat.', bg: '#E3F3CF', liquid: '#A7CF63', light: '#CBE68F', slice: '#3E6B2A', inner: '#C6E07A', seed: '#6B4423' },
+      { id: 'mangga',   nama: 'Jus Mangga',    harga: 13000, desc: 'Manis segar dari mangga matang.',      bg: '#FFEBB0', liquid: '#FFB52E', light: '#FFD066', slice: '#E8920F', inner: '#FFC94A', lines: '#E8920F' },
+      { id: 'jeruk',    nama: 'Jus Jeruk',     harga: 10000, desc: 'Asam manis, kaya vitamin C.',          bg: '#FFE3C7', liquid: '#FF9A1F', light: '#FFB955', slice: '#F97316', inner: '#FFC14D', lines: '#F97316' },
+      { id: 'stroberi', nama: 'Jus Stroberi',  harga: 14000, desc: 'Segar, sedikit asam, wangi.',          bg: '#FFDDE4', liquid: '#F2597A', light: '#F98BA3', slice: '#D61F45', inner: '#F9A8B8', dots: '#FFE27A' },
+      { id: 'melon',    nama: 'Jus Melon',     harga: 12000, desc: 'Ringan, manis, dan menyegarkan.',      bg: '#DDF4D2', liquid: '#B9E47C', light: '#D4F0A6', slice: '#6BBF59', inner: '#E1F5B8', dots: '#F7F2B0' },
+      { id: 'semangka', nama: 'Jus Semangka',  harga: 10000, desc: 'Banyak air, dingin, pas siang hari.',  bg: '#FFDADA', liquid: '#FF6B7A', light: '#FF98A3', slice: '#2F9E44', inner: '#FF5C6C', dots: '#1B1B1B' },
+      { id: 'jambu',    nama: 'Jus Jambu',     harga: 12000, desc: 'Jambu merah, halus dan wangi.',        bg: '#FFDCE6', liquid: '#FF8FAE', light: '#FFB3C7', slice: '#6BBF59', inner: '#FFD0DC', dots: '#E8B86B' },
+      { id: 'naga',     nama: 'Jus Buah Naga', harga: 15000, desc: 'Buah naga merah, warnanya cantik.',    bg: '#F5DDF3', liquid: '#C2188C', light: '#E052B6', slice: '#E8338F', inner: '#F6F6F6', dots: '#222222' }
+    ];
+
+    // id -> jumlah yang dipesan
+    const jumlah = Object.fromEntries(JUS.map(j => [j.id, 0]));
+
+    /* ==========================================================
+       3. HELPER
+       ========================================================== */
+    const $ = id => document.getElementById(id);
+
+    const rupiah = n =>
+      new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 })
+        .format(n)
+        .replace(/\s/g, '');
+
+    // Escape teks dari pengguna sebelum dimasukkan ke HTML
+    function esc(teks) {
+      const el = document.createElement('div');
+      el.textContent = teks;
+      return el.innerHTML;
+    }
+    const escMultiline = teks => esc(teks).replace(/\n/g, '<br>');
+
+    const itemDipesan = () => JUS.filter(j => jumlah[j.id] > 0);
+    const hitungTotal = () => JUS.reduce((total, j) => total + j.harga * jumlah[j.id], 0);
+    const hitungGelas = () => JUS.reduce((total, j) => total + jumlah[j.id], 0);
+
+    const bacaForm = () => ({
+      nama: $('nama').value.trim(),
+      antar: $('antar').value,
+      alamat: $('alamat').value.trim(),
+      lain: $('lain').value.trim(),
+      catatan: $('catatan').value.trim()
+    });
+
+    /* ==========================================================
+       4. GAMBAR GELAS JUS (SVG)
+       ========================================================== */
+    function hiasanBuah(p) {
+      let svg = '';
+
+      if (p.lines) {
+        for (let sudut = 0; sudut < 180; sudut += 60) {
+          svg += `<line x1="-16" y1="0" x2="16" y2="0" stroke="${p.lines}" stroke-width="2" transform="rotate(${sudut})"/>`;
+        }
+      }
+      if (p.dots) {
+        [[-8, -6], [6, -8], [0, 2], [-9, 8], [8, 7], [0, -14]].forEach(([x, y]) => {
+          svg += `<ellipse cx="${x}" cy="${y}" rx="2" ry="3" fill="${p.dots}"/>`;
+        });
+      }
+      if (p.seed) {
+        svg += `<ellipse cx="0" cy="3" rx="8" ry="9" fill="${p.seed}"/>` +
+               `<ellipse cx="-2" cy="0" rx="2.5" ry="3" fill="#fff" opacity=".4"/>`;
+      }
+      return svg;
+    }
+
+    function gelas(p) {
+      return `
+        <svg viewBox="0 0 200 220" role="img" aria-label="Segelas ${p.nama}">
+          <rect width="200" height="220" fill="${p.bg}"/>
+          <ellipse cx="100" cy="204" rx="54" ry="8" fill="#000" opacity=".13"/>
+
+          <!-- sedotan -->
+          <path d="M122 150L150 14" stroke="#E23D28" stroke-width="7" stroke-linecap="round"/>
+          <path d="M122 150L150 14" stroke="#fff" stroke-width="2" stroke-dasharray="6 9" opacity=".7"/>
+
+          <!-- isi jus -->
+          <path d="M55 74H145L137 193Q136 202 127 202H73Q64 202 63 193Z" fill="${p.liquid}" opacity=".95"/>
+          <ellipse cx="100" cy="74" rx="45" ry="8" fill="${p.light}"/>
+          <rect x="74" y="104" width="26" height="24" rx="6" fill="#fff" opacity=".28" transform="rotate(-12 87 116)"/>
+          <rect x="104" y="136" width="24" height="22" rx="6" fill="#fff" opacity=".25" transform="rotate(10 116 147)"/>
+
+          <!-- badan gelas -->
+          <path d="M50 52H150L138 193Q137 202 128 202H72Q63 202 62 193Z" fill="#fff" opacity=".18" stroke="#fff" stroke-width="3"/>
+          <path d="M66 70L72 186" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".5"/>
+
+          <!-- irisan buah -->
+          <g transform="translate(58 54)">
+            <circle r="23" fill="${p.slice}"/>
+            <circle r="18" fill="${p.inner}"/>
+            ${hiasanBuah(p)}
+          </g>
+        </svg>`;
+    }
+
+    // Gambar besar di hero: jus mangga
+    $('hero-gambar').insertAdjacentHTML('afterbegin', gelas(JUS.find(j => j.id === 'mangga')));
+
+    /* ==========================================================
+       5. KARTU MENU
+       ========================================================== */
+    const grid = $('grid');
+
+    const kartuMenu = j => `
+      <article class="card" id="kartu-${j.id}">
+        <div class="pic">${gelas(j)}</div>
+        <div class="body">
+          <h3>${j.nama}</h3>
+          <p>${j.desc}</p>
+          <div class="harga">${rupiah(j.harga)}</div>
+          <div class="stepper">
+            <button type="button" class="minus" data-id="${j.id}" aria-label="Kurangi ${j.nama}">&minus;</button>
+            <span class="qty" id="qty-${j.id}" aria-live="polite">0</span>
+            <button type="button" class="plus" data-id="${j.id}" aria-label="Tambah ${j.nama}">+</button>
+          </div>
+          <div class="sub" id="sub-${j.id}"></div>
+        </div>
+      </article>`;
+
+    grid.innerHTML = JUS.map(kartuMenu).join('');
+
+    // Satu listener untuk semua tombol + dan −
+    grid.addEventListener('click', e => {
+      const tombol = e.target.closest('button[data-id]');
+      if (!tombol) return;
+
+      const id = tombol.dataset.id;
+      if (tombol.classList.contains('plus')) jumlah[id] += 1;
+      else if (jumlah[id] > 0) jumlah[id] -= 1;
+
+      perbarui();
+    });
+
+    /* ==========================================================
+       6. PERBARUI TAMPILAN (kartu, daftar, total, bar mobile)
+       ========================================================== */
+    function perbarui() {
+      JUS.forEach(j => {
+        const n = jumlah[j.id];
+        $('qty-' + j.id).textContent = n;
+        $('sub-' + j.id).textContent = n > 0 ? 'Subtotal ' + rupiah(n * j.harga) : '';
+        $('kartu-' + j.id).classList.toggle('aktif', n > 0);
+        $('kartu-' + j.id).querySelector('.minus').disabled = (n === 0);
+      });
+
+      const dipesan = itemDipesan();
+      $('kosong').style.display = dipesan.length ? 'none' : 'block';
+      $('daftar').innerHTML = dipesan.map(j => `
+        <li>
+          <span class="n">${j.nama}<small>${jumlah[j.id]} x ${rupiah(j.harga)}</small></span>
+          <span>${rupiah(jumlah[j.id] * j.harga)}</span>
+        </li>`).join('');
+
+      const total = rupiah(hitungTotal());
+      $('total').textContent = total;
+      $('bar-total').textContent = total;
+      $('bar-jumlah').textContent = hitungGelas();
+      $('bar-pesanan').classList.toggle('tampil', dipesan.length > 0);
+      $('error').textContent = '';
+    }
+
+    // Sembunyikan bar pesanan kalau panel pesanan sudah terlihat
+    new IntersectionObserver(([entri]) => {
+      $('bar-pesanan').style.visibility = entri.isIntersecting ? 'hidden' : 'visible';
+    }).observe($('pesanan'));
+
+    /* ==========================================================
+       7. STRUK & PESAN WHATSAPP
+       ========================================================== */
+    const dialog = $('struk');
+
+    function bangunPesanWA({ nama, antar, alamat, lain, catatan }) {
+      const baris = ['Halo, saya mau pesan jus.'];
+
+      if (nama) baris.push('Nama: ' + nama);
+      baris.push('Pengambilan: ' + antar);
+      if (antar === 'Diantar') baris.push('Alamat: ' + alamat);
+
+      itemDipesan().forEach(j => {
+        baris.push(`- ${j.nama} x${jumlah[j.id]} = ${rupiah(jumlah[j.id] * j.harga)}`);
+      });
+
+      baris.push('Total: ' + rupiah(hitungTotal()));
+      if (lain) baris.push('Pesanan lain: ' + lain);
+      if (catatan) baris.push('Catatan: ' + catatan);
+
+      return baris.join('\n');
+    }
+
+    function bangunStruk(data) {
+      const { nama, antar, alamat, lain, catatan } = data;
+      const dipesan = itemDipesan();
+      const tanggal = new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' });
+      const linkWA = `https://wa.me/${NOMOR_WA}?text=${encodeURIComponent(bangunPesanWA(data))}`;
+
+      let html = `<h2 id="judul-struk">Pesanan kamu</h2><div class="tgl">${tanggal}</div>`;
+
+      if (nama) html += `<div><b>Atas nama:</b> ${esc(nama)}</div>`;
+
+      if (dipesan.length) {
+        html += '<table>' + dipesan.map(j => `
+          <tr>
+            <td>${j.nama}<br><small>${jumlah[j.id]} x ${rupiah(j.harga)}</small></td>
+            <td>${rupiah(jumlah[j.id] * j.harga)}</td>
+          </tr>`).join('') +
+          `<tr class="tot"><td>Total</td><td>${rupiah(hitungTotal())}</td></tr></table>`;
+      }
+
+      if (lain)    html += `<div class="blok"><b>Pesanan lain</b>${escMultiline(lain)}</div>`;
+      if (catatan) html += `<div class="blok"><b>Catatan</b>${escMultiline(catatan)}</div>`;
+
+      html += `<div class="blok"><b>Pengambilan</b>${esc(antar)}` +
+              (antar === 'Diantar' ? '<br>' + escMultiline(alamat) : '') + '</div>';
+
+      html += `
+        <div class="aksi-struk">
+          <a class="btn btn-main" target="_blank" rel="noopener" href="${linkWA}">Kirim lewat WhatsApp</a>
+          <button class="btn btn-ghost" type="button" id="tutup">Ubah pesanan</button>
+        </div>`;
+
+      return html;
+    }
+
+    function tampilkanError(pesan, fokus) {
+      $('error').textContent = pesan;
+      if (fokus) fokus.focus();
+    }
+
+    $('btn-pesan').addEventListener('click', () => {
+      const data = bacaForm();
+
+      if (itemDipesan().length === 0 && !data.lain) {
+        return tampilkanError('Pilih minimal satu jus dengan tombol + atau isi kolom pesanan lain.');
+      }
+      if (data.antar === 'Diantar' && !data.alamat) {
+        return tampilkanError('Isi alamat pengantaran dulu, atau ganti ke "Ambil di tempat".', $('alamat'));
+      }
+
+      $('isi-struk').innerHTML = bangunStruk(data);
+      $('tutup').addEventListener('click', () => dialog.close());
+      dialog.showModal();
+    });
+
+    // Klik di luar kotak struk menutup dialog
+    dialog.addEventListener('click', e => {
+      if (e.target === dialog) dialog.close();
+    });
+
+    /* ==========================================================
+       8. FORM: ALAMAT & RESET
+       ========================================================== */
+    // Kolom alamat hanya tampil kalau pilihannya "Diantar"
+    function aturAlamat() {
+      const diantar = $('antar').value === 'Diantar';
+      $('label-alamat').style.display = diantar ? 'grid' : 'none';
+    }
+
+    $('antar').addEventListener('change', () => {
+      aturAlamat();
+      $('error').textContent = '';
+    });
+
+    $('btn-reset').addEventListener('click', () => {
+      JUS.forEach(j => { jumlah[j.id] = 0; });
+      ['nama', 'alamat', 'lain', 'catatan'].forEach(id => { $(id).value = ''; });
+      $('antar').value = 'Diantar';
+      aturAlamat();
+      perbarui();
+    });
+
+    /* ==========================================================
+       9. INISIALISASI
+       ========================================================== */
+    aturAlamat();
+    perbarui();
+  </script>
+</body>
+</html>
